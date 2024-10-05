@@ -10,7 +10,7 @@ public class BinaryTreeTest {
     private final Tree<Integer> binaryTree;
 
     public BinaryTreeTest(){
-        this.binaryTree = new BinaryTree<>();
+        this.binaryTree = new BinaryTree();
     }
 
     @BeforeEach
