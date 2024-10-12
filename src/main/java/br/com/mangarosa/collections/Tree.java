@@ -1,5 +1,7 @@
 package br.com.mangarosa.collections;
 
+import java.util.List;
+
 public interface Tree <T extends Comparable<T>>{
 
     void add(T value);
@@ -16,7 +18,7 @@ public interface Tree <T extends Comparable<T>>{
 
     int size();
 
-    T[] toArray();
+    List<T> toList();
 
     void clear();
 }

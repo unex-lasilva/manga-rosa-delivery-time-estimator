@@ -1,135 +1,212 @@
 package br.com.mangarosa.collections;
 
+import java.util.List;
+
 /**
- * A classe BinaryTree é uma implementação de árvore binária balanceada. Ela estende a classe
- * BinaryTreeA2B, e seus métodos são responsáveis por adicionar, remover e manter o balanceamento da árvore
- * usando rotações para garantir o balanceamento adequado dos nós.
+ * Classe que representa uma árvore binária. Opera com nós genéricos do tipo Integer.
  */
-public class BinaryTree extends BinaryTreeA2B {
+public class BinaryTree implements Tree<Integer> {
+
+    protected BinaryTreeNode<Integer> root;
+    protected int size;
+
+    public BinaryTree() {
+        this.root = null;
+        this.size = 0;
+    }
 
     /**
-     * Adiciona um valor à árvore binária e garante que a árvore permaneça balanceada após a inserção.
+     * Adiciona um novo valor à árvore binária.
+     * Se a árvore estiver vazia, define o novo valor como raiz.
      *
      * @param value O valor a ser adicionado à árvore.
      */
     @Override
     public void add(Integer value) {
-        super.add(value);
-        root = balance(root);
+        root = addRecursive(root, value);
+        size++;
     }
 
     /**
-     * Remove um valor da árvore binária e garante que a árvore permaneça balanceada após a remoção.
+     * Encontra recursivamente a posição correta na árvore para inserir o novo valor.
      *
-     * @param value O valor a ser removido da árvore.
+     * @param node  O nó atual sendo verificado.
+     * @param value O valor a ser adicionado.
+     * @return O nó atualizado após a inserção.
      */
-    @Override
-    public void remove(Integer value) {
-        super.remove(value);
-        root = balance(root);
-    }
-
-    /**
-     * Balanceia a árvore binária a partir de um determinado nó. Verifica o fator de balanceamento
-     * e aplica rotações (simples ou duplas) conforme necessário.
-     *
-     * @param node O nó a partir do qual o balanceamento será feito.
-     * @return O novo nó raiz após o balanceamento.
-     */
-    private BinaryTreeNode<Integer> balance(BinaryTreeNode<Integer> node) {
-        if (node == null) return null;
-
-        // Calcula o fator de balanceamento
-        int balanceFactor = height(node.getLeftChild()) - height(node.getRightChild());
-
-        // Verifica se a árvore está desbalanceada para a esquerda
-        if (balanceFactor > 1) {
-            // Caso de rotação simples à direita
-            if (height(node.getLeftChild().getLeftChild()) >= height(node.getLeftChild().getRightChild())) {
-                node = rotateRight(node);
-            }
-            // Caso de rotação dupla à direita (esquerda-direita)
-            else {
-                node = rotateLeftRight(node);
-            }
+    private BinaryTreeNode<Integer> addRecursive(BinaryTreeNode<Integer> node, Integer value) {
+        if (node == null) {
+            return new BinaryTreeNode<>(value);
         }
 
-        // Verifica se a árvore está desbalanceada para a direita
-        if (balanceFactor < -1) {
-            // Caso de rotação simples à esquerda
-            if (height(node.getRightChild().getRightChild()) >= height(node.getRightChild().getLeftChild())) {
-                node = rotateLeft(node);
-            }
-            // Caso de rotação dupla à esquerda (direita-esquerda)
-            else {
-                node = rotateRightLeft(node);
-            }
+        if (value.compareTo(node.getValue()) < 0) {
+            node.setLeftChild(addRecursive(node.getLeftChild(), value));
+        } else if (value.compareTo(node.getValue()) > 0) {
+            node.setRightChild(addRecursive(node.getRightChild(), value));
         }
 
         return node;
     }
 
     /**
-     * Calcula a altura de um nó na árvore binária. A altura de um nó é a maior profundidade
-     * entre seus filhos mais 1 (para contar o nó atual).
+     * Remove um valor da árvore, se existir.
      *
-     * @param node O nó cuja altura será calculada.
-     * @return A altura do nó.
+     * @param value O valor a ser removido da árvore.
      */
-    private int height(BinaryTreeNode<Integer> node) {
-        if (node == null) return 0;
-        return 1 + Math.max(height(node.getLeftChild()), height(node.getRightChild()));
+    @Override
+    public void remove(Integer value) {
+        if (contains(value)) {
+            root = removeRecursive(root, value);
+            size--;
+        }
     }
 
     /**
-     * Realiza uma rotação simples à esquerda. Esse tipo de rotação é utilizado para corrigir
-     * o desbalanceamento quando o subárvore à direita de um nó é mais profundo.
+     * Encontra recursivamente o nó a ser removido e ajusta a árvore adequadamente.
      *
-     * @param node O nó que será rotacionado.
-     * @return O novo nó raiz após a rotação.
+     * @param node  O nó atual sendo verificado.
+     * @param value O valor a ser removido.
+     * @return O nó atualizado após a remoção.
      */
-    private BinaryTreeNode<Integer> rotateLeft(BinaryTreeNode<Integer> node) {
-        BinaryTreeNode<Integer> newRoot = node.getRightChild();
-        node.setRightChild(newRoot.getLeftChild());
-        newRoot.setLeftChild(node);
-        return newRoot;
+    private BinaryTreeNode<Integer> removeRecursive(BinaryTreeNode<Integer> node, Integer value) {
+        if (node == null) {
+            return null;
+        }
+
+        if (value.compareTo(node.getValue()) < 0) {
+            node.setLeftChild(removeRecursive(node.getLeftChild(), value));
+        } else if (value.compareTo(node.getValue()) > 0) {
+            node.setRightChild(removeRecursive(node.getRightChild(), value));
+        } else {
+            // Caso o nó não tenha filhos
+            if (node.getLeftChild() == null && node.getRightChild() == null) {
+                return null;
+            }
+            // Caso o nó tenha apenas o filho direito
+            if (node.getLeftChild() == null) {
+                return node.getRightChild();
+            }
+            // Caso o nó tenha apenas o filho esquerdo
+            if (node.getRightChild() == null) {
+                return node.getLeftChild();
+            }
+
+            // Caso o nó tenha dois filhos, encontre o menor valor no lado direito
+            BinaryTreeNode<Integer> smallestValue = findMin(node.getRightChild());
+            node.setValue(smallestValue.getValue());
+            node.setRightChild(removeRecursive(node.getRightChild(), smallestValue.getValue()));
+        }
+
+        return node;
     }
 
     /**
-     * Realiza uma rotação simples à direita. Esse tipo de rotação é utilizado para corrigir
-     * o desbalanceamento quando o subárvore à esquerda de um nó é mais profundo.
+     * Encontra o nó com o menor valor em uma subárvore.
      *
-     * @param node O nó que será rotacionado.
-     * @return O novo nó raiz após a rotação.
+     * @param node O nó raiz da subárvore.
+     * @return O nó contendo o menor valor.
      */
-    private BinaryTreeNode<Integer> rotateRight(BinaryTreeNode<Integer> node) {
-        BinaryTreeNode<Integer> newRoot = node.getLeftChild();
-        node.setLeftChild(newRoot.getRightChild());
-        newRoot.setRightChild(node);
-        return newRoot;
+    private BinaryTreeNode<Integer> findMin(BinaryTreeNode<Integer> node) {
+        return node.getLeftChild() == null ? node : findMin(node.getLeftChild());
     }
 
     /**
-     * Realiza uma rotação dupla à esquerda e depois à direita (esquerda-direita). Esse tipo de rotação
-     * é utilizado quando o subárvore à esquerda do nó tem uma desbalanceamento à direita.
+     * Verifica se a árvore contém um valor específico.
      *
-     * @param node O nó que será rotacionado.
-     * @return O novo nó raiz após a rotação.
+     * @param value O valor a ser procurado.
+     * @return True se o valor for encontrado, falso caso contrário.
      */
-    private BinaryTreeNode<Integer> rotateLeftRight(BinaryTreeNode<Integer> node) {
-        node.setLeftChild(rotateLeft(node.getLeftChild()));
-        return rotateRight(node);
+    @Override
+    public boolean contains(Integer value) {
+        return containsRecursive(value);
     }
 
     /**
-     * Realiza uma rotação dupla à direita e depois à esquerda (direita-esquerda). Esse tipo de rotação
-     * é utilizado quando o subárvore à direita do nó tem uma desbalanceamento à esquerda.
+     * Verifica se um nó com o valor especificado existe na árvore.
      *
-     * @param node O nó que será rotacionado.
-     * @return O novo nó raiz após a rotação.
+     * @param value O valor a ser procurado.
+     * @return True se o valor for encontrado, falso caso contrário.
      */
-    private BinaryTreeNode<Integer> rotateRightLeft(BinaryTreeNode<Integer> node) {
-        node.setRightChild(rotateRight(node.getRightChild()));
-        return rotateLeft(node);
+    private boolean containsRecursive(Integer value) {
+        return findNode(root, value) != null;
+    }
+
+    /**
+     * Verifica se a árvore está vazia.
+     *
+     * @return True se a árvore não contiver elementos, falso caso contrário.
+     */
+    @Override
+    public boolean isEmpty() {
+        return root == null;
+    }
+
+    /**
+     * Verifica se o nó com o valor fornecido é uma folha (não possui filhos).
+     *
+     * @param value O valor do nó a ser verificado.
+     * @return True se o nó for uma folha, falso caso contrário.
+     */
+    @Override
+    public boolean isLeaf(Integer value) {
+        BinaryTreeNode<Integer> node = findNode(root, value);
+        return node != null && node.getLeftChild() == null && node.getRightChild() == null;
+    }
+
+    /**
+     * Encontra o nó que contém o valor fornecido.
+     *
+     * @param node  O nó atual sendo verificado.
+     * @param value O valor a ser procurado.
+     * @return O nó contendo o valor, ou null se não encontrado.
+     */
+    private BinaryTreeNode<Integer> findNode(BinaryTreeNode<Integer> node, Integer value) {
+        if (node == null) return null;
+        if (value.equals(node.getValue())) return node;
+        return value.compareTo(node.getValue()) < 0 ? findNode(node.getLeftChild(), value) : findNode(node.getRightChild(), value);
+    }
+
+    /**
+     * Obtém o nó raiz da árvore.
+     *
+     * @return O nó raiz.
+     */
+    @Override
+    public BinaryTreeNode<Integer> root() {
+        return root;
+    }
+
+    /**
+     * Obtém o tamanho da árvore.
+     *
+     * @return O número de elementos na árvore.
+     */
+    @Override
+    public int size() {
+        return size;
+    }
+
+    /**
+     * Converte a árvore para um array, percorrendo-a em ordem.
+     *
+     * @return Um array contendo todos os valores da árvore.
+     */
+    @Override
+    public List<Integer> toList() {
+        if(root == null){
+            return null;
+        }
+        InOrderTraversal traversal = new InOrderTraversal();
+        List<Integer> list = traversal.traverse(this);
+        return list;
+    }
+
+    /**
+     * Limpa a árvore, removendo todos os elementos.
+     */
+    @Override
+    public void clear() {
+        root = null;
+        size = 0;
     }
 }

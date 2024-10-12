@@ -10,7 +10,7 @@ public class Main {
     //Menu interativo para testar as funcionalidades do sistema
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        BinaryTree tree = new BinaryTree();
+        BalancedTree tree = new BalancedTree();
         int option;
 
         do {
