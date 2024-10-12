@@ -15,7 +15,7 @@ public interface Tree <T extends Comparable<T>>{
     boolean isLeaf(T value);
 
     BinaryTreeNode<T> root();
-
+    
     int size();
 
     List<T> toList();

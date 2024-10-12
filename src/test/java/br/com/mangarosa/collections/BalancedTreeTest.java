@@ -153,7 +153,7 @@ public class BalancedTreeTest {
         balancedTree.add(77);
         balancedTree.add(94);
 
-        BinaryTreeNode<Integer> root = balancedTree.root();
+        //BinaryTreeNode<Integer> root = balancedTree.root();
 
         balancedTree.remove(94);
         balancedTree.remove(77);
