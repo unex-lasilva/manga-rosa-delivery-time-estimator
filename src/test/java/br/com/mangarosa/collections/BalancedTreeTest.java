@@ -12,7 +12,7 @@ public class BalancedTreeTest {
     private final Tree<Integer> balancedTree;
 
     public BalancedTreeTest(){
-        balancedTree = new BalancedTree<>();
+        balancedTree = new BalancedTree();
     }
 
     @BeforeEach

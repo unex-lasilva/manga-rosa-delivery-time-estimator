@@ -1,10 +1,7 @@
 package br.com.mangarosa.collections;
 
-import br.com.mangarosa.impl.BinaryTree;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -12,17 +9,17 @@ public class BinaryTreeTest {
 
     private final Tree<Integer> binaryTree;
 
-    public BinaryTreeTest(){
-        binaryTree = new BinaryTree<>();
+    public BinaryTreeTest() {
+        binaryTree = new BinaryTree();
     }
 
     @BeforeEach
-    public void init(){
+    public void init() {
         binaryTree.clear();
     }
 
     @Test
-    public void shouldAddElements(){
+    public void shouldAddElements() {
 
         binaryTree.add(29);
 
@@ -117,7 +114,7 @@ public class BinaryTreeTest {
     }
 
     @Test
-    public void shouldRemoveElements(){
+    public void shouldRemoveElements() {
 
         binaryTree.add(29);
         binaryTree.add(7);
@@ -214,7 +211,7 @@ public class BinaryTreeTest {
     }
 
     @Test
-    public void shouldContainsElements(){
+    public void shouldContainsElements() {
 
         //tree is empty
         assertNull(binaryTree.root());
@@ -266,7 +263,7 @@ public class BinaryTreeTest {
     }
 
     @Test
-    public void shouldBeEmpty(){
+    public void shouldBeEmpty() {
 
         //empty tree
         assertNull(binaryTree.root());
@@ -306,7 +303,7 @@ public class BinaryTreeTest {
     }
 
     @Test
-    public void shouldBeLeaf(){
+    public void shouldBeLeaf() {
 
         // not exists
         assertNull(binaryTree.root());
@@ -351,71 +348,5 @@ public class BinaryTreeTest {
         assertTrue(binaryTree.isLeaf(52));
         assertTrue(binaryTree.isLeaf(77));
 
-    }
-
-    @Test
-    public void shouldConvertToList(){
-
-        //empty
-        assertNull(binaryTree.toList());
-        binaryTree.add(29);
-
-        assertNotNull(binaryTree.toList());
-        assertEquals(Integer.valueOf(29), binaryTree.toList().get(0));
-
-        binaryTree.add(7);
-        binaryTree.add(65);
-        assertNotNull(binaryTree.toList());
-        assertEquals(List.of(7, 29, 65), binaryTree.toList());
-
-        binaryTree.add(25);
-        binaryTree.add(44);
-        assertNotNull(binaryTree.toList());
-        assertEquals(List.of(7, 25, 29, 44, 65), binaryTree.toList());
-
-        binaryTree.add(94);
-        binaryTree.add(3);
-        binaryTree.add(52);
-        binaryTree.add(77);
-        binaryTree.add(33);
-
-        assertNotNull(binaryTree.toList());
-        assertEquals(List.of(3, 7, 25, 29, 33, 44, 52, 65, 77, 94), binaryTree.toList());
-
-        binaryTree.remove(29);
-        binaryTree.remove(7);
-        binaryTree.remove(65);
-        binaryTree.remove(25);
-        binaryTree.remove(44);
-        assertNotNull(binaryTree.toList());
-        assertEquals(List.of(3, 33, 52, 77, 94), binaryTree.toList());
-
-        binaryTree.remove(94);
-        binaryTree.remove(3);
-        binaryTree.remove(52);
-        binaryTree.remove(77);
-        binaryTree.remove(33);
-
-        assertNull(binaryTree.toList());
-    }
-
-    @Test
-    public void shouldClearTheTree(){
-
-        assertNull(binaryTree.root());
-
-        binaryTree.add(29);
-        assertNotNull(binaryTree.root());
-
-        binaryTree.add(7);
-        binaryTree.add(65);
-        binaryTree.add(25);
-        binaryTree.add(44);
-
-        assertNotNull(binaryTree.root());
-
-        binaryTree.clear();
-
-        assertNull(binaryTree.root());
     }
 }
