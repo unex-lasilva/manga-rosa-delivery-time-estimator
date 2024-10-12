@@ -3,8 +3,8 @@ package br.com.mangarosa.collections;
 public class BinaryTreeNode<T extends Comparable<T>> {
 
     private T value;
-    private BinaryTreeNode<T> left;
-    private BinaryTreeNode<T> right;
+    BinaryTreeNode<T> left;
+    BinaryTreeNode<T> right;
 
     public BinaryTreeNode(T value){
         this.value = value;
