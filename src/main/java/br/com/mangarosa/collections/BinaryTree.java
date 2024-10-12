@@ -126,7 +126,7 @@ public class BinaryTree <T extends Comparable<T>> implements Tree<T> {
         return node != null && node.getLeftChild() == null && node.getRightChild() == null;
     }
 
-    // Método auxiliar para retornar o nó que contém o valro buscar em isLeaf
+    // Método auxiliar para retornar o nó que contém o valor buscado em isLeaf
     private BinaryTreeNode<T> findNode(BinaryTreeNode<T> node, T value) {
         // Se o nó não existe ou o valor for igual ao do nó, retorna o próprio nó
         if (node == null || value.compareTo(node.getValue()) == 0) {
