@@ -24,10 +24,8 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
             return node;
         }
 
-        // Atualiza a altura do nó atual
+    
         updateHeight(node);
-
-        // Verifica o balanceamento e realiza rotações se necessário
         return balance(node);
     }
 
@@ -49,22 +47,22 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
         } else if (value.compareTo(node.getValue()) > 0) {
             node.setRightChild(removeRecursive(node.getRightChild(), value));
         } else {
-            // Este é o nó a ser removido
+           
             if (node.getLeftChild() == null) {
                 return node.getRightChild(); // Substitui o nó pelo filho direito
             } else if (node.getRightChild() == null) {
                 return node.getLeftChild(); // Substitui o nó pelo filho esquerdo
             }
 
-            // Nó com dois filhos: encontra o sucessor in-order
+           
             node.setValue(findMin(node.getRightChild()).getValue());
             node.setRightChild(removeRecursive(node.getRightChild(), node.getValue()));
         }
 
-        // Atualiza a altura do nó atual
+      
         updateHeight(node);
 
-        // Verifica o balanceamento e realiza rotações se necessário
+       
         return balance(node);
     }
 
@@ -90,7 +88,7 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
     private BinaryTreeNode<T> balance(BinaryTreeNode<T> node) {
         int balance = balanceFactor(node);
 
-        // Se o nó estiver desbalanceado à esquerda
+     
         if (balance > 1) {
             if (balanceFactor(node.getLeftChild()) < 0) {
                 node.setLeftChild(rotateLeft(node.getLeftChild())); // Rotação esquerda-direita
@@ -98,7 +96,7 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
             return rotateRight(node); // Rotação à direita
         }
 
-        // Se o nó estiver desbalanceado à direita
+     
         if (balance < -1) {
             if (balanceFactor(node.getRightChild()) > 0) {
                 node.setRightChild(rotateRight(node.getRightChild())); // Rotação direita-esquerda
