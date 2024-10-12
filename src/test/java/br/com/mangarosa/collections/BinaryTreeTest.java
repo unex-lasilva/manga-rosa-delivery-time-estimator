@@ -9,40 +9,40 @@ public class BinaryTreeTest {
 
     private final Tree<Integer> binaryTree;
 
-    public BinaryTreeTest(){
-        this.binaryTree = new BinaryTree();
+    public BinaryTreeTest() {
+        binaryTree = new BinaryTree();
     }
 
     @BeforeEach
-    public void init(){
-        this.binaryTree.clear();
+    public void init() {
+        binaryTree.clear();
     }
 
     @Test
-    public void shouldAddElements(){
+    public void shouldAddElements() {
 
-        this.binaryTree.add(29);
+        binaryTree.add(29);
 
         // checks if the root was updated
-        assertNotNull(this.binaryTree.root());
-        assertNotNull(this.binaryTree.root().getValue());
-        assertEquals(1, this.binaryTree.size());
-        assertEquals(Integer.valueOf(29), this.binaryTree.root().getValue());
+        assertNotNull(binaryTree.root());
+        assertNotNull(binaryTree.root().getValue());
+        assertEquals(1, binaryTree.size());
+        assertEquals(Integer.valueOf(29), binaryTree.root().getValue());
 
-        this.binaryTree.add(7);
-        this.binaryTree.add(65);
-        this.binaryTree.add(25);
-        this.binaryTree.add(44);
-        this.binaryTree.add(94);
+        binaryTree.add(7);
+        binaryTree.add(65);
+        binaryTree.add(25);
+        binaryTree.add(44);
+        binaryTree.add(94);
 
         //Check if the root node exists and if the size of the tree has changed
-        assertNotNull(this.binaryTree.root());
-        assertNotNull(this.binaryTree.root().getValue());
-        assertEquals(6, this.binaryTree.size());
+        assertNotNull(binaryTree.root());
+        assertNotNull(binaryTree.root().getValue());
+        assertEquals(6, binaryTree.size());
 
         //Check if the left and right children are not null and if their value are correct
-        BinaryTreeNode<Integer> leftNode = this.binaryTree.root().getLeftChild();
-        BinaryTreeNode<Integer> rightNode = this.binaryTree.root().getRightChild();
+        BinaryTreeNode<Integer> leftNode = binaryTree.root().getLeftChild();
+        BinaryTreeNode<Integer> rightNode = binaryTree.root().getRightChild();
 
         assertNotNull(leftNode);
         assertNotNull(rightNode);
@@ -67,12 +67,12 @@ public class BinaryTreeTest {
         assertNull(rightNode.getRightChild().getLeftChild());
         assertNull(rightNode.getRightChild().getRightChild());
 
-        this.binaryTree.add(3);
-        this.binaryTree.add(52);
-        this.binaryTree.add(77);
-        this.binaryTree.add(33);
+        binaryTree.add(3);
+        binaryTree.add(52);
+        binaryTree.add(77);
+        binaryTree.add(33);
 
-        assertEquals(10, this.binaryTree.size());
+        assertEquals(10, binaryTree.size());
 
         // left of the left of the root
         assertNotNull(leftNode.getLeftChild());
@@ -114,7 +114,239 @@ public class BinaryTreeTest {
     }
 
     @Test
-    public void shouldRemoveElements(){
+    public void shouldRemoveElements() {
+
+        binaryTree.add(29);
+        binaryTree.add(7);
+        binaryTree.add(65);
+        binaryTree.add(25);
+        binaryTree.add(44);
+        binaryTree.add(94);
+        binaryTree.add(3);
+        binaryTree.add(52);
+        binaryTree.add(77);
+        binaryTree.add(33);
+
+        BinaryTreeNode<Integer> root = binaryTree.root();
+        assertNotNull(root);
+        assertEquals(10, binaryTree.size());
+
+        //remove leaves
+        binaryTree.remove(3);
+        binaryTree.remove(52);
+
+        assertEquals(8, binaryTree.size());
+
+        BinaryTreeNode<Integer> left = root.getLeftChild();
+        BinaryTreeNode<Integer> right = root.getRightChild();
+
+        assertNotNull(left);
+        assertNotNull(right);
+
+        //left node has only the right child
+        assertNull(left.getLeftChild());
+        assertNotNull(left.getRightChild());
+
+        BinaryTreeNode<Integer> leftRight = right.getLeftChild();
+
+        assertNotNull(leftRight);
+        // left child of thr right child has only one child
+        assertNotNull(leftRight.getLeftChild());
+        assertNull(leftRight.getRightChild());
+
+        //remove a node with only one child (left side)
+        binaryTree.remove(44);
+        assertEquals(7, binaryTree.size());
+
+        leftRight = right.getLeftChild();
+        assertNotNull(leftRight);
+        assertEquals(Integer.valueOf(33), leftRight.getValue());
+
+        //remove a node with only one child (right side)
+        binaryTree.remove(7);
+        assertEquals(6, binaryTree.size());
+
+        left = root.getLeftChild();
+        assertNotNull(left);
+        assertEquals(Integer.valueOf(25), left.getValue());
+
+        //remove a node with two children
+        binaryTree.remove(65);
+        assertEquals(5, binaryTree.size());
+
+        right = root.getRightChild();
+        assertNotNull(right);
+        assertEquals(Integer.valueOf(77), right.getValue());
+
+        assertNotNull(right.getLeftChild());
+        assertNotNull(right.getRightChild());
+        assertEquals(Integer.valueOf(33), right.getLeftChild().getValue());
+        assertEquals(Integer.valueOf(94), right.getRightChild().getValue());
+
+        // remove root
+        binaryTree.remove(29);
+
+        root = binaryTree.root();
+        assertNotNull(root);
+        assertEquals(4, binaryTree.size());
+
+        assertEquals(Integer.valueOf(33), root.getValue());
+
+        left = root.getLeftChild();
+        right = root.getRightChild();
+
+        assertNotNull(left);
+        assertNotNull(right);
+
+        //check left child
+        assertEquals(Integer.valueOf(25), left.getValue());
+        assertNull(left.getLeftChild());
+        assertNull(left.getRightChild());
+
+        //check right child
+        assertEquals(Integer.valueOf(77), right.getValue());
+        assertNull(right.getLeftChild());
+        assertNotNull(right.getRightChild());
+        assertEquals(Integer.valueOf(94), right.getRightChild().getValue());
+    }
+
+    @Test
+    public void shouldContainsElements() {
+
+        //tree is empty
+        assertNull(binaryTree.root());
+        assertFalse(binaryTree.contains(29));
+        binaryTree.add(29);
+        assertTrue(binaryTree.contains(29));
+
+        //add two new nodes.
+        binaryTree.add(7);
+        binaryTree.add(65);
+        assertTrue(binaryTree.contains(7));
+        assertTrue(binaryTree.contains(65));
+
+        //insert new nodes
+        binaryTree.add(25);
+        binaryTree.add(44);
+        binaryTree.add(94);
+        binaryTree.add(3);
+        binaryTree.add(52);
+        binaryTree.add(77);
+        binaryTree.add(33);
+
+        //contains and not contains
+        assertTrue(binaryTree.contains(44));
+        assertTrue(binaryTree.contains(33));
+        assertFalse(binaryTree.contains(54));
+        assertFalse(binaryTree.contains(35));
+        assertFalse(binaryTree.contains(23));
+
+        //contains, remove and not contains
+        assertTrue(binaryTree.contains(52));
+        assertTrue(binaryTree.contains(77));
+
+        binaryTree.remove(52);
+        binaryTree.remove(77);
+
+        assertFalse(binaryTree.contains(52));
+        assertFalse(binaryTree.contains(77));
+
+        //contains, remove, not contains - root value
+        assertTrue(binaryTree.contains(29));
+        binaryTree.remove(29);
+        assertFalse(binaryTree.contains(29));
+
+        //not contains, add, contains
+        assertFalse(binaryTree.contains(24));
+        binaryTree.add(24);
+        assertTrue(binaryTree.contains(24));
+    }
+
+    @Test
+    public void shouldBeEmpty() {
+
+        //empty tree
+        assertNull(binaryTree.root());
+        assertTrue(binaryTree.isEmpty());
+
+        //add an element
+        binaryTree.add(29);
+
+        //not empty tree
+        assertNotNull(binaryTree.root());
+        assertTrue(binaryTree.contains(29));
+        assertFalse(binaryTree.isEmpty());
+
+        //insert new elements
+        binaryTree.add(7);
+        binaryTree.add(65);
+        assertFalse(binaryTree.isEmpty());
+
+        //partial removal of elements
+        binaryTree.remove(65);
+        binaryTree.remove(7);
+        assertFalse(binaryTree.isEmpty());
+
+        //complete removal of elements
+        binaryTree.remove(29);
+        assertTrue(binaryTree.isEmpty());
+
+        binaryTree.add(29);
+        binaryTree.add(65);
+        binaryTree.add(7);
+
+        assertFalse(binaryTree.isEmpty());
+
+        binaryTree.clear();
+
+        assertTrue(binaryTree.isEmpty());
+    }
+
+    @Test
+    public void shouldBeLeaf() {
+
+        // not exists
+        assertNull(binaryTree.root());
+
+        // exists and it is the unique node
+        binaryTree.add(29);
+        assertTrue(binaryTree.isLeaf(29));
+
+        // exists and it is a leaf and the root node is not a leaf
+        binaryTree.add(7);
+        binaryTree.add(65);
+        assertFalse(binaryTree.isLeaf(29));
+        assertTrue(binaryTree.isLeaf(7));
+        assertTrue(binaryTree.isLeaf(65));
+
+        //insert new nodes
+        binaryTree.add(25);
+        assertFalse(binaryTree.isLeaf(29));
+        assertFalse(binaryTree.isLeaf(7));
+        assertTrue(binaryTree.isLeaf(65));
+
+        binaryTree.add(44);
+        assertFalse(binaryTree.isLeaf(29));
+        assertFalse(binaryTree.isLeaf(7));
+        assertFalse(binaryTree.isLeaf(65));
+
+
+        binaryTree.add(94);
+        binaryTree.add(3);
+        binaryTree.add(52);
+        binaryTree.add(77);
+        binaryTree.add(33);
+
+        assertFalse(binaryTree.isLeaf(29));
+        assertFalse(binaryTree.isLeaf(7));
+        assertFalse(binaryTree.isLeaf(65));
+        assertFalse(binaryTree.isLeaf(44));
+        assertFalse(binaryTree.isLeaf(94));
+        assertTrue(binaryTree.isLeaf(3));
+        assertTrue(binaryTree.isLeaf(25));
+        assertTrue(binaryTree.isLeaf(33));
+        assertTrue(binaryTree.isLeaf(52));
+        assertTrue(binaryTree.isLeaf(77));
 
     }
 }
