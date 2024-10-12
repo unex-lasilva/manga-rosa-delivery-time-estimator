@@ -318,6 +318,9 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
      */
     @Override
     public List<T> toList() {
+        if (root == null ){
+            return null;
+        }
         if (isEmpty()) {
             return new ArrayList<>();
         }
