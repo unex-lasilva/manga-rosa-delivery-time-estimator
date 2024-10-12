@@ -1,5 +1,4 @@
 package br.com.mangarosa.collections;
-
 import java.util.List;
 
 public interface Tree <T extends Comparable<T>>{
