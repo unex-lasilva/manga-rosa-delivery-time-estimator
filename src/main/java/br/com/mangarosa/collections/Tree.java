@@ -20,5 +20,7 @@ public interface Tree <T extends Comparable<T>>{
 
     List<T> toList();
 
+    T[] toArray();
+
     void clear();
 }
