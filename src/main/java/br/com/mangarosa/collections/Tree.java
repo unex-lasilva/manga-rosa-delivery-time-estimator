@@ -18,6 +18,8 @@ public interface Tree <T extends Comparable<T>>{
 
     int size();
 
+    T[] toArray();
+
     List<T> toList();
 
     void clear();
