@@ -5,10 +5,23 @@ public class BinaryTreeNode<T extends Comparable<T>> {
     private T value;
     private BinaryTreeNode<T> left;
     private BinaryTreeNode<T> right;
+    private  int altura;
 
-    public BinaryTreeNode(T value){
+    public BinaryTreeNode (T value){
         this.value = value;
+        this.altura = 0;
+        
     }
+
+    
+    public int getAltura() {
+        return altura;
+    }
+
+    public void setAltura(int altura) {
+        this.altura = altura;
+    }
+    
 
     public void setValue(T value) {
         this.value = value;
@@ -35,7 +48,8 @@ public class BinaryTreeNode<T extends Comparable<T>> {
     }
 
     @Override
-    public String toString() {
+    public String toString
+    () {
         return "node{" +
                 "value=" + value +
                 '}';
