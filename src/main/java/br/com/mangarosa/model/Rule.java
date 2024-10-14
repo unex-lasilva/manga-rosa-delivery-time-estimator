@@ -2,12 +2,16 @@ package br.com.mangarosa.model;
 
 import java.util.Objects;
 
-public class Rule implements Comparable<Rule> {
+public final class Rule implements Comparable<Rule> {
 
     private Integer ruleId;
 
-    public Rule(Integer ruleId){
+    public Rule(Integer ruleId) {
         setRuleId(ruleId);
+    }
+
+    public Rule() {
+        // Construtor sem argumentos (opcional)
     }
 
     @Override
@@ -20,6 +24,9 @@ public class Rule implements Comparable<Rule> {
     }
 
     public void setRuleId(Integer ruleId) {
+        if (ruleId == null || ruleId < 0) {
+            throw new IllegalArgumentException("Rule ID cannot be null or negative");
+        }
         this.ruleId = ruleId;
     }
 
@@ -32,7 +39,7 @@ public class Rule implements Comparable<Rule> {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(ruleId);
+        return Objects.hash(ruleId);
     }
 
     @Override
