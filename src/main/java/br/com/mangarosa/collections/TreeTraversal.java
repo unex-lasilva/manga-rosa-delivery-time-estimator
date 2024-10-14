@@ -4,4 +4,6 @@ import java.util.List;
 
 public interface TreeTraversal <T extends Comparable<T>> {
     List<T> traverse(Tree<T> tree);
+
+    List<T> ordenacao(Tree<T> tree);
 }
