@@ -10,10 +10,12 @@ import static org.junit.Assert.*;
 public class BalancedTreeTest {
 
     private final Tree<Integer> balancedTree;
-
+    
     public BalancedTreeTest(){
-        balancedTree = new BalancedTree<>();
+        balancedTree = new A3B<>();
     }
+
+ 
 
     @BeforeEach
     public void init(){
