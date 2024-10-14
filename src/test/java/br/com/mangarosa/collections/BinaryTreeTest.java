@@ -1,19 +1,24 @@
 package br.com.mangarosa.collections;
 
-import br.com.mangarosa.impl.BinaryTree;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BinaryTreeTest {
 
     private final Tree<Integer> binaryTree;
 
     public BinaryTreeTest(){
-        binaryTree = new BinaryTree<>();
+        binaryTree = new A2B<>();
     }
 
     @BeforeEach
@@ -418,4 +423,6 @@ public class BinaryTreeTest {
 
         assertNull(binaryTree.root());
     }
+
+   
 }
