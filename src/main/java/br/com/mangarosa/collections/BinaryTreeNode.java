@@ -1,13 +1,23 @@
 package br.com.mangarosa.collections;
 
 public class BinaryTreeNode<T extends Comparable<T>> {
-
+    
     private T value;
     private BinaryTreeNode<T> left;
     private BinaryTreeNode<T> right;
+    private int height;
 
     public BinaryTreeNode(T value){
         this.value = value;
+        this.height = 0;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public void setValue(T value) {

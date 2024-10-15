@@ -1,6 +1,6 @@
 package br.com.mangarosa.collections;
 
-import br.com.mangarosa.impl.BinaryTree;
+// import br.com.mangarosa.implements.BinaryTree;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
