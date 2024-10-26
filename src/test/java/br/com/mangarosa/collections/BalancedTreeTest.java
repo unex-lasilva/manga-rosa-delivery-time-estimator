@@ -1,5 +1,6 @@
 package br.com.mangarosa.collections;
 
+import br.com.mangarosa.impl.AVLBinaryTree;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -12,7 +13,7 @@ public class BalancedTreeTest {
     private final Tree<Integer> balancedTree;
 
     public BalancedTreeTest(){
-        balancedTree = new BalancedTree<>();
+        balancedTree = new AVLBinaryTree<>();
     }
 
     @BeforeEach
